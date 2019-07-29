@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-value',
@@ -12,18 +13,12 @@ export class ValueComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.getVaues();
+    // this.getVaues();
   }
 
   getVaues() {
-    this.http.get('http://localhost:5000/api/values').subscribe(
-      res => {
-        this.values = res;
-        console.log(res);
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    return this.http
+      .get('http://localhost:5000/api/values')
+      .pipe(timeout(3000));
   }
 }
